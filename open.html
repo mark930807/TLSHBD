@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>披薩吃一年水餃</title>
+  <link rel="icon" href="LOGO.png" type="image/png">
+  <link rel="apple-touch-icon" sizes="180x180" href="LOGO.png">
+
+  <style>
+    /* 所有頁面共用的樣式 */
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI","Noto Sans TC", sans-serif;
+        /*background:#000000;*/
+        margin: 0;
+        padding: 0;
+    }
+
+    html, body {
+        height: 100%;
+        scroll-snap-type: y mandatory;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+    }
+
+    .hero,.card1,.card2 {
+        scroll-snap-align: start;
+    }
+
+    #bg-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;   /* 讓影片像 background-size: cover */
+        z-index: -1;         /* 放到文字後面 */
+    }
+
+    .corner-box{
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        background: rgba(255,255,255,0.8);
+        padding: 10px 15px;
+        border-radius: 16px;
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+    }
+
+    .corner-box.iz{
+        display: none;
+    }
+
+    .container {
+        margin: 0 auto;
+        text-align: center;
+        flex:1;
+        box-sizing:border-box;
+    }
+
+    .hero {
+        height: 100vh;
+        height: 100svh;
+        width: 100%;
+        position: relative;  /* 讓 video 能定位 */
+        overflow: hidden;
+        flex-direction: column;
+  
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero.start{
+        display: none;
+    }
+
+    .hero.start.end{
+        display: flex;
+    }
+
+    .card1{
+        height: 100vh;
+        height: 100svh;
+        width: 100%;
+        background: #fcf7df;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card2{
+        height: 100vh;
+        height: 100svh;
+        width: 100%;
+        background: #fcf7df;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card2.active{
+        height: 100vh;
+        height: 100svh;
+        width: 100%;
+        background: #fcf7df;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .slider {
+        display: flex;
+        gap: 20px;              /* 卡片間距 */
+        overflow-x: auto;       /* 開啟左右滑動 */
+        padding: 20px 40px;
+        scroll-snap-type: x mandatory; 
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .slide-card {
+        min-width: 280px;       /* 卡片寬度（重點！） */
+        max-width: 320px;
+        height: 380px;
+    
+        background: #c7d3db;
+        border-radius: 20px;
+        padding: 16px;
+        box-sizing: border-box;
+    
+        flex-shrink: 0;         /* 防止被壓縮（超重要） */
+        scroll-snap-align: center;
+    
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .slider-wrapper {
+        width: 100%;               /* 只占頁面 90% */
+        max-width: 3000px;        /* 最大寬度 */
+        margin: 0 auto;           /* 置中 */
+        overflow-x: hidden;       /* 只讓 slider 滑，超出的部分隱藏 */
+    }
+
+
+
+    .title {
+        color: white;
+        font-size: 40px;
+        text-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .titlesmallfone{
+        color: #a79a8a;
+        font-size: 20px;
+    }
+
+    .onapagedown{
+        color:white
+    }
+
+    .bfont{
+        width: 80%;
+        font-size:22px;
+    }
+
+    h1{
+        color:#3e3630;
+        border-radius: 8px;
+    }
+
+    .hero h2{
+        font-size: 20px;
+        color:white;
+    }
+
+    .smaillfont{
+        color:#aaa;
+        font-size:20px;
+    }
+
+    .slider h1{
+        font-size: 30px;
+    }
+
+    .slider p{
+        color:#3e3630;
+        font-size: 20px;
+    }
+
+    .slider img {
+        /*width: 100%;*/
+        height: 330px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin: 10px 0;
+    }
+
+    .card1 button,.card2 button{
+        width: 300px;
+        background: #c7d3db;
+        color: #3e3630;
+        margin-bottom: 8px;
+        border-radius: 12px;
+    }
+
+    .corner-box button{
+        width: 50px;
+        height: 30px;
+        background: #c7d3db;
+        color: #3e3630;
+        border-radius: 12px;
+    }
+
+    .card2 input{
+        width: 300px;
+        height: 40px;
+        font-size: 20px;
+        background: #3e3630;
+        color: #fcf7df;
+        text-align: center;
+        margin-bottom: 8px;
+        border-radius: 8px;
+    }
+
+    .redfont{
+        color:rgb(209, 68, 68);
+    }
+
+    .buommt{
+        width: 100%;
+    }
+
+    @media (max-width: 480px) {
+        .slider {
+            padding: 20px calc(50vw - 140px); 
+        }
+
+        .giftimg{
+            width: 50%;
+        }
+    }
+
+/* 平板以上 / 電腦 */
+    @media (min-width: 481px) {
+        .giftimg{
+            width: 20%;
+        }
+    }
+
+  </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card1">
+            <h1>依照下方資訊猜出密碼</h1>
+            <div class="slider-wrapper">
+                <div class="slider">
+                    <img src="0214一.jpg">
+                    <img src="0214二.jpg">
+                </div>
+            </div>
+            <p class="bfont">將你猜出的答案輸入後按下驗證按鈕</p>
+            <input type="text">回答我!!<br>
+            <button type="submit"><h2>送出答案</h2></button>
+        </div>
+        <!--以下舊檔案-->
+        <div class="card1">
+            <h1>這一年我們做了什麼</h1>
+            <div class="slider-wrapper">
+                <div class="slider">
+                    <div class="slide-card">
+                        <h1>2025 Mar.</h1>
+                        <p>在一起第一天，我們還種了一棵樹，取名叫第一天。</p>
+                        <img src="3Y.png">
+                    </div>
+                    <div class="slide-card">
+                        <h1>2025 Apr.</h1>
+                        <p>我們一起去看螢火蟲，一起拍拍貼機。</p>
+                        <img src="4Y.png">
+                    </div>
+                    <div class="slide-card">
+                        <h1>2025 May.</h1>
+                        <p>我們換了這個情侶頭貼，你也換上我送你的新鞋了。</p>
+                        <img src="5Y.png">
+                    </div>
+                    <div class="slide-card">
+                        <h1>2025 Jun.</h1>
+                        <p>我們一起去台北玩，還有好吃的義大利麵跟咖啡廳。</p>
+                        <img src="6Y.png">
+                    </div>
+                    <div class="slide-card">
+                        <h1>2025 Jul.</h1>
+                        <p>第一次一起看電影，還在家裡玩黏土。</p>
+                        <img src="7Y.png">
+                    </div>
+                    <div class="slide-card">
+                        <h1>2025 Aug.</h1>
+                        <p>我們一起去澎湖，這也是你第一次搭飛機。</p>
+                        <img src="8Y.png">
+                    </div>
+                    <div class="slide-card">
+                        <h1>2025 Sep.</h1>
+                        <p>我偷偷騎車去台南等你下班，結果你直接騎走。</p>
+                        <img src="9Y.png">
+                    </div>
+                    <div class="slide-card">
+                        <h1>2025 Oct.</h1>
+                        <p>我搭飛機去找你，還一起拍學士服照。</p>
+                        <img src="10Y.png">
+                    </div>
+                    <div class="slide-card">
+                        <h1>2025 Nov.</h1>
+                        <p>我隔天北科面試超緊張，你傳這張照片讓我舒緩很多。</p>
+                        <img src="11Y.png">
+                    </div>
+                    <div class="slide-card">
+                        <h1>2025 Dec.</h1>
+                        <p>我們一起去遊樂園，在那邊拍了很多學士服照。</p>
+                        <img src="12Y.png">
+                    </div>
+                    <div class="slide-card">
+                        <h1>2026 Jan.</h1>
+                        <p>跟你爭鮮朋友在國華街吃滷味，還被他們偷拍。</p>
+                        <img src="1Y.png">
+                    </div>
+                    <div class="slide-card">
+                        <h1>2026 Feb.</h1>
+                        <p>一起去嘉義玩，第一次帶你來找我朋友。</p>
+                        <img src="2Y.png">
+                    </div>
+                </div>
+            </div>
+            <p class="titlesmallfone">⇊ 往下滑以繼續 ⇊</p>
+        </div>
+        <div class="card1">
+            <h1>彎依爾測驗</h1>
+            <p class="bfont">謝謝你陪我一年，我準備了一個禮物。</p>
+            <img class="giftimg" src="pingu0.png">
+            <p class="bfont">這四塊拼圖是獎品的剪影，答題正確可以解鎖一塊拼圖，題目都是來自上面的回顧內容，依序答題完成將得到拼圖上的獎品。</p>
+            <p class="smaillfont">※頁面重啟後紀錄將刷新※</p>
+            <p class="titlesmallfone">⇊ 往下滑開始答題 ⇊</p>
+        </div>
+        <div class="card1">
+            <h1>第一題</h1>
+            <p class="bfont">2025七月的愛心制服是在哪間學校的營隊?</p>
+            <button onclick="answrong('#wrong1')"><h2>明義附幼</h2></button>
+            <a href="#ans1"><button onclick="showPage('ans1');showPage('Q2')"><h2>明利附幼</h2></button></a>
+            <button onclick="answrong('#wrong1')"><h2>前金幼兒園</h2></button>
+            <p class="smaillfont redfont"><span id="wrong1"></span></p>
+        </div>
+        <div id="ans1" class="card2">
+            <h1>恭喜你答對第一題</h1>
+            <img class="giftimg" src="pingu1.png">
+            <p class="bfont">獲得了一片拼圖</p>
+            <p class="titlesmallfone">⇊ 往下滑以繼續 ⇊</p>
+        </div>
+        <div id="Q2" class="card2">
+            <h1>第二題</h1>
+            <p class="bfont">澎湖回來之後我送妳的獎狀中，有下列哪些圖片?</p>
+            <a href="#ans2"><button onclick="showPage('ans2');showPage('Q3')"><h2>矮袋鼠與丼飯</h2></button></a>
+            <button onclick="answrong('#wrong2')"><h2>荔枝與倉鼠</h2></button>
+            <button onclick="answrong('#wrong2')"><h2>恐龍與挖土機</h2></button>
+            <p class="smaillfont redfont"><span id="wrong2"></span></p>
+        </div>
+        <div id="ans2" class="card2">
+            <h1>恭喜你答對第二題</h1>
+            <img class="giftimg" src="pingu2.png">
+            <p class="bfont">又獲得了一片拼圖</p>
+            <p class="titlesmallfone">⇊ 往下滑以繼續 ⇊</p>
+        </div>
+        <div id="Q3" class="card2">
+            <h1>第三題</h1>
+            <p class="bfont">去遠雄時我們一個很想坐但在施工的設施是什麼?</p>
+            <a href="#ans3"><button onclick="showPage('ans3');showPage('Q4')"><h2>纜車</h2></button></a>
+            <button onclick="answrong('#wrong3')"><h2>海盜船</h2></button>
+            <button onclick="answrong('#wrong3')"><h2>入口的剪票機</h2></button>
+            <p class="smaillfont redfont"><span id="wrong3"></span></p>
+        </div>
+        <div id="ans3" class="card2">
+            <h1>恭喜你答對第三題</h1>
+            <img class="giftimg" src="pingu3.png">
+            <p class="bfont">又又獲得了一片拼圖</p>
+            <p class="titlesmallfone">⇊ 往下滑以繼續 ⇊</p>
+        </div>
+        <div id="Q4" class="card2">
+            <h1>第四題</h1>
+            <p class="bfont">我們跟你爭鮮同事在海安路吃飯的店名叫什麼?</p>
+            <button onclick="answrong('#wrong4')"><h2>男性滷味</h2></button>
+            <button onclick="answrong('#wrong4')"><h2>理性滷味</h2></button>
+            <a href="#ans4"><button onclick="showPage('ans4');showPage('Q5')"><h2>感性滷味</h2></button></a>
+            <p class="smaillfont redfont"><span id="wrong4"></span></p>
+        </div>
+        <div id="ans4" class="card2">
+            <h1>恭喜你答對第四題</h1>
+            <img class="giftimg" src="pingu4.png">
+            <p class="bfont">又又又獲得了一片拼圖</p>
+            <p class="titlesmallfone">⇊ 往下滑以繼續 ⇊</p>
+        </div>
+        <div id="Q5" class="card2">
+            <h1>終極加碼題</h1>
+            <p class="bfont">去年告白時問了這個問題，那時候你說等我們一年的時候再告訴我，現在可以告訴我了吧</p>
+            <img src="ans.jpg">
+            <p class="bfont">回答完這個問題就可以拿到禮物了!</p>
+            <form action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdkD-OIqYGamQrQ5DWCLH5jjLAwvhK3TTA-3VyRP8et-p8i7Q/formResponse"method="POST"target="hidden_iframe"onsubmit="showPage('ans5'),showstar(),redirectPage(),Hmusic()">
+                <input type="text" name="entry.1127753635" placeholder="回答我!!"><br>
+                <button type="submit"><h2>送出答案</h2></button>
+            </form>
+            <iframe name="hidden_iframe" style="display:none;"></iframe>
+            <p class="smaillfont redfont"><span id="wrong4"></span></p>
+        </div>
+        <div id="ans5" class="card2">
+            <h1>恭喜你完成所有題目</h1>
+            <img class="giftimg" src="pingu.png">
+            <p class="bfont">禮物在行李箱裡，密碼是</p>
+            <h1>387</h1>
+            <p class="titlesmallfone">⇊ 往下滑以繼續 ⇊</p>
+        </div>
+        <section id="star" class="hero start">
+            <video autoplay muted loop playsinline id="bg-video">
+                <source src="star.mp4" type="video/mp4">
+            </video>
+            <h2 class="title"><span id="dayfontb"></span><br></h2>
+            <h1 class="title">Day<span id="hbtext"></span><br></h1>
+            <p class="title titlesmallfone onapagedown">One year together</p>
+        </section>
+        <img class="buommt" src="eye2.png">
+    </div>
+    
+    
+    <script>
+        var iDays = parseInt(Math.abs(new Date() - new Date("2025-3-17")) / 1000 / 60 / 60 / 24);
+        document.querySelector("#htext").textContent = iDays;
+        document.querySelector("#hbtext").textContent = iDays;
+        document.querySelector("#dayfont").textContent = new Date().toLocaleDateString();
+        document.querySelector("#dayfontb").textContent = new Date().toLocaleDateString();
+        function answrong(wnum) {
+            document.querySelector(wnum).textContent = "答錯囉!再想想看";
+        }
+        function showPage(pageId) {
+            document.getElementById(pageId).classList.add('active');
+        }
+        function showstar() {
+            document.getElementById("star").classList.add('end');
+        }
+        function redirectPage(){
+            window.location.hash = "ans5";
+        }
+        function bfmusic(){
+            document.getElementById("bgm").play();
+            document.getElementById("bf").classList.add('iz');
+        }
+        function Hmusic(){
+            document.getElementById("bgm").pause();
+            document.getElementById("pingubgm").play();
+        }
+    </script>
+</body>
+</html>
+
