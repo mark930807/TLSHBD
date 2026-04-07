@@ -220,7 +220,7 @@
         border-radius: 12px;
     }
 
-    .card2 input{
+    .card1 input{
         width: 300px;
         height: 40px;
         font-size: 20px;
@@ -269,9 +269,9 @@
                     <img src="0214二.jpg">
                 </div>
             </div>
-            <p class="bfont">將你猜出的答案輸入後按下驗證按鈕</p>
-            <input type="text">回答我!!<br>
-            <button type="submit"><h2>送出答案</h2></button>
+            <p id="text1" class="bfont">輸入答案後按下驗證按鈕</p>
+            <input type="text" id="ans1" placeholder="輸入密碼">
+            <button onclick="checkans('1')"><h2>驗證</h2></button>
         </div>
         <!--以下舊檔案-->
         <div class="card1">
@@ -438,6 +438,11 @@
     
     
     <script>
+        function checkans(which) {
+            if(which == '1'){
+                document.querySelector("#text1").textContent = iDays;
+            }
+        }
         var iDays = parseInt(Math.abs(new Date() - new Date("2025-3-17")) / 1000 / 60 / 60 / 24);
         document.querySelector("#htext").textContent = iDays;
         document.querySelector("#hbtext").textContent = iDays;
