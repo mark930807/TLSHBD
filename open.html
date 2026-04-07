@@ -204,6 +204,15 @@
         scroll-snap-align: center;
     }
 
+    .slide_card img {
+        /*width: 100%;*/
+        height: 330px;
+        object-fit: cover;
+        border-radius: 12px;
+        flex-shrink: 0;         /* 防止被壓縮（超重要） */
+        scroll-snap-align: center;
+    }
+
     .card1 button,.card2 button{
         width: 300px;
         background: #c7d3db;
@@ -269,9 +278,44 @@
                     <img src="0214二.jpg">
                 </div>
             </div>
-            <p id="text1" class="bfont">輸入答案後按下驗證按鈕</p>
+            <p class="bfont">輸入答案後按下驗證按鈕</p>
             <input type="text" id="ans1" placeholder="輸入密碼">
             <button onclick="checkans('1')"><h2>驗證</h2></button>
+            <p class="smaillfont redfont"><span id="text1"></span></p>
+        </div>
+        <div id="step21" class="card2">
+            <h1>第二關-數織遊戲</h1>
+            <p class="bfont">在表格橫豎前方都有數字，數字代表連續的格子，兩個間必須包含一個以上的空格，例如:</p>
+            <p class="bfont">1 2 =>□■□■■</p>
+            <p class="bfont">3 =>□■■■□</p>
+            <p class="bfont">把格子畫在紙上開始玩吧!</p>
+            <p class="titlesmallfone">⇊ 往下滑開始玩! ⇊</p>
+        </div>
+        <div id="step22" class="card2">
+            <h1>數織遊戲</h1>
+            <p class="bfont">完成下面題目猜出密碼</p>
+            <div class="slider-wrapper">
+                <div class="slider">
+                    <div class="slide-card">
+                        <img src="數織1.png">
+                    </div>
+                    <div class="slide-card">
+                        <img src="數織2.png">
+                    </div>
+                    <div class="slide-card">
+                        <img src="數織3.png">
+                    </div>
+                </div>
+            </div>
+            <p class="bfont">輸入答案後按下驗證按鈕</p>
+            <input type="text" id="ans2" placeholder="輸入密碼">
+            <button onclick="checkans('2')"><h2>驗證</h2></button>
+            <p class="smaillfont redfont"><span id="text2"></span></p>
+        </div>
+        <div id="win" class="card2">
+            <h1>恭喜你猜對密碼</h1>
+            <p class="bfont">禮物就在行李箱裡，密碼是</p>
+            <h1>062</h1>
         </div>
         <!--以下舊檔案-->
         <div class="card1">
@@ -438,9 +482,39 @@
     
     
     <script>
+        let starttime=Date.now();
+        let step=0;
+        setInterval(()=>{
+            let nowtime=Date.now()
+            if((nowtime-starttime)>30000){
+                if(step == 0){
+                    alert("因為你第一關破解了三分鐘，所以我們開啟第二關，你可以在第二關破解密碼")
+                    showPage('step21');
+                    showPage('step22');
+                    window.location.href="#step21"
+                    step++;
+                }
+                
+            }
+        },10)
         function checkans(which) {
             if(which == '1'){
-                document.querySelector("#text1").textContent = iDays;
+                if(document.getElementById("ans1").value == "062"){
+                    showPage('win');
+                    window.location.href="#win"
+                }
+                else{
+                    document.querySelector("#text1").textContent = "答錯了.....";
+                }   
+            }
+            if(which == '2'){
+                if(document.getElementById("ans2").value == "062"){
+                    showPage('win');
+                    window.location.href="#win"
+                }
+                else{
+                    document.querySelector("#text2").textContent = "答錯了.....";
+                }   
             }
         }
         var iDays = parseInt(Math.abs(new Date() - new Date("2025-3-17")) / 1000 / 60 / 60 / 24);
