@@ -486,7 +486,7 @@
         let step=0;
         setInterval(()=>{
             let nowtime=Date.now()
-            if((nowtime-starttime)>30000){
+            if((nowtime-starttime)>10000){
                 if(step == 0){
                     alert("因為你第一關破解了三分鐘，所以我們開啟第二關，你可以在第二關破解密碼")
                     showPage('step21');
