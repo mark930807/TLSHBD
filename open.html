@@ -380,9 +380,10 @@
         },10)
         function checkans(which) {
             if(which == '1'){
-                if(document.getElementById("ans1").value == "062"){
+                if(document.getElementById("ans1").value == 62){
                     showPage('win');
-                    window.location.href="#win"
+                    window.location.href="#win";
+                    step=2;
                 }
                 else{
                     document.querySelector("#text1").textContent = "答錯了.....";
@@ -391,7 +392,8 @@
             if(which == '2'){
                 if(document.getElementById("ans2").value == "062"){
                     showPage('win');
-                    window.location.href="#win"
+                    window.location.href="#win";
+                    step=2;
                 }
                 else{
                     document.querySelector("#text2").textContent = "答錯了.....";
@@ -400,7 +402,8 @@
             if(which == '3'){
                 if(document.getElementById("ans3").value == 62){
                     showPage('win');
-                    window.location.href="#win"
+                    window.location.href="#win";
+                    step=2;
                 }
                 else{
                     if(document.getElementById("ans3").value>62){
@@ -413,8 +416,8 @@
                 }   
             }
         }
-        function showstar() {
-            document.getElementById("star").classList.add('end');
+        function showPage(pageId) {
+            document.getElementById(pageId).classList.add('active');
         }
     </script>
 </body>
