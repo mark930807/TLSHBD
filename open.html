@@ -141,6 +141,20 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
 
+    .slide-card2 {
+        min-width: 180px;       /* 卡片寬度（重點！） */
+        max-width: 220px;
+        height: 180px;
+    
+        background: #c7d3db;
+        border-radius: 20px;
+        padding: 16px;
+        box-sizing: border-box;
+    
+        flex-shrink: 0;         /* 防止被壓縮（超重要） */
+        scroll-snap-align: center;
+    }
+
     .slider-wrapper {
         width: 100%;               /* 只占頁面 90% */
         max-width: 3000px;        /* 最大寬度 */
@@ -306,6 +320,25 @@
                     </div>
                 </div>
             </div>
+            <p class="bfont">輸入答案後按下驗證按鈕</p>
+            <input type="text" id="ans2" placeholder="輸入密碼">
+            <button onclick="checkans('2')"><h2>驗證</h2></button>
+            <p class="smaillfont redfont"><span id="text2"></span></p>
+        </div>
+        <div id="step31" class="card2">
+            <h1>終極密碼</h1>
+            <p class="bfont">請從最大值到最小值選擇一個數字</p>
+            <div class="slider">
+                <div class="slide-card2">
+                    <p class="bfont">最大值</p>
+                    <h1><span id="bigt"></span></h1>
+                </div>
+                <div class="slide-card2">
+                    <p class="bfont">最小值</p>
+                    <h1><span id="smallt"></span></h1>
+                </div>
+            </div>
+            
             <p class="bfont">輸入答案後按下驗證按鈕</p>
             <input type="text" id="ans2" placeholder="輸入密碼">
             <button onclick="checkans('2')"><h2>驗證</h2></button>
@@ -491,10 +524,24 @@
                     showPage('step21');
                     showPage('step22');
                     window.location.href="#step21"
+                    starttime=Date.now();
                     step++;
                 }
-                
+                else if(step == 1){
+                    alert("因為你第二關又破解了三分鐘，所以我們開啟第三關，你可以在第三關破解密碼")
+                    showPage('step31');
+                    showPage('step22');
+                    window.location.href="#step31"
+                    starttime=Date.now();
+                    step++;
+                }
             }
+        },10)
+        let big=999;
+        let small=0;
+        setInterval(()=>{
+            document.querySelector("#bigt").textContent = big;
+            document.querySelector("#smallt").textContent = small;
         },10)
         function checkans(which) {
             if(which == '1'){
