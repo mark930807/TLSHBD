@@ -200,6 +200,8 @@
         object-fit: cover;
         border-radius: 12px;
         margin: 10px 0;
+        flex-shrink: 0;         /* 防止被壓縮（超重要） */
+        scroll-snap-align: center;
     }
 
     .card1 button,.card2 button{
